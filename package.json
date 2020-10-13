@@ -1,0 +1,30 @@
+{
+  "name": "aimod",
+  "version": "0.0.0",
+  "description": "AIMod uses machine learning to automatically process reported messages on your server.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "eslint": "^7.11.0",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CamTheHelpDesk/AIMod.git"
+  },
+  "keywords": [
+    "discord-js",
+    "perspecitve-api",
+    "automod"
+  ],
+  "author": "Camdan Mead",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/CamTheHelpDesk/AIMod/issues"
+  },
+  "homepage": "https://github.com/CamTheHelpDesk/AIMod#readme"
+}
