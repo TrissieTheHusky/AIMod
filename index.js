@@ -4,10 +4,21 @@ const Discord = require('discord.js');
 const client = new Discord.Client({ ws: { intents: 14335 } });
 const cooldowns = new Discord.Collection();
 
+const chalk = require('chalk');
+
+const chalkError = chalk.bold.red;
+const chalkWarning = chalk.bold.yellow;
+const chalkSuccess = chalk.green;
+
+const chalkStartup = chalk.bgMagenta.bold;
+const chalkCommandRun = chalk.bgGreen.bold;
+const chalkCommandFail = chalk.bgRed.bold;
+
 const config = require('./config.json');
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Discord.Collection();
+console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Command files identified and parsed:'), commandFiles);
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -15,7 +26,10 @@ for (const file of commandFiles) {
 }
 
 client.on('ready', () => {
-	console.log('Connected to Discord API');
+	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Connected to Discord API'));
+	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Currently protecting ' + `${client.users.cache.size}` + ' users, in ' + `${client.channels.cache.size}` + ' channels of ' + `${client.guilds.cache.size}` + ' guilds.'));
+	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Ready! Listening for commands...'));
+	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Log started! Details about any executed commands will be logged here from now on.'));
 });
 
 client.on('message', message => {
@@ -41,6 +55,7 @@ client.on('message', message => {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now) / 1000;
+			console.log(chalkCommandFail('[COMMAND FAIL]') + chalkWarning(` COOLDOWN - USER ${message.author.tag} - COMMAND ${command.name} - REMAINING ${timeLeft.toFixed(1)}`));
 			return message.reply(`Sorry! This command has a cooldown. Please wait ${timeLeft.toFixed(1)} more second(s) before trying the \`${command.name}\` command again!`);
 		}
 	}
@@ -49,6 +64,8 @@ client.on('message', message => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	if (command.guildOnly && message.channel.type !== 'text') {
+		console.log(chalkCommandFail('[COMMAND FAIL]') + chalkWarning(` GIULDONLY IN DM - USER - ${message.author.tag} COMMAND - ${command.name}`));
+		console.log(`[COMMAND FAIL] GIULDONLY IN DM - USER - ${message.author.tag} COMMAND - ${command.name}`);
 
 		return message.reply('I can\'t execute that command inside direct messages! Please try again in a server!');
 	}
@@ -59,14 +76,18 @@ client.on('message', message => {
 		if (command.usage) {
 			reply += `\nThe proper usage of this command would be: \`${config.prefix}${command.name} ${command.usage}\``;
 		}
+		console.log(chalkCommandFail('[COMMAND FAIL]') + chalkWarning(` NO ARGS - USER ${message.author.tag} - COMMAND ${command.name}`));
 		return message.channel.send(reply);
 
 	}
 
 	try {
 		command.execute(message, args);
+		// eslint-disable-next-line no-shadow
+		console.log(chalkCommandRun('[COMMAND EXECUTED]') + chalkSuccess(` COMMAND ${command.name} - USER ${message.author.tag} - ARGS ${args.map(args => args).join(', ')}`));
 	}
 	catch (error) {
+		console.log(chalkCommandFail('[COMMAND FAIL]') + chalkError(' UNKNOWN FAILURE IN EXECUTION - PLEASE SEE ERROR BELOW\n', error));
 		message.reply('Oops! There was an error trying to execute that command! You can either attempt to run it again, or let us know by submitting a bug report!');
 	}
 });
