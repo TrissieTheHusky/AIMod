@@ -1,0 +1,27 @@
+default:
+  close:
+    delay: "5 seconds"
+    comment: "⚠️ This issue has been marked $LABEL and will be automatically closed. Thank you for your contribution!"
+
+labels:
+  wontfix: close
+  invalid: close
+  duplicate: close
+  close: close
+  ✅ Approved: merge
+
+comments:
+  - action: label
+    pattern: /duplicate of/i
+    labels: 
+      - duplicate
+
+  - action: delete_comment
+    pattern: "+1"
+
+commits:
+  - action: label
+    pattern: /merge when passing/i
+    user: "maintainer"
+    labels: 
+      - merge when passing

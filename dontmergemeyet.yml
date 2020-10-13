@@ -1,0 +1,7 @@
+wipKeywords:
+- text: DO NOT MERGE
+  caseSensitive: false  # default is case insensitive
+- text: WIP
+  caseSensitive: false
+wipLabels:
+- wip
