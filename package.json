@@ -10,7 +10,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lintfix": "npx eslint *.js --fix",
+    "lint": "npx eslint *.js",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
