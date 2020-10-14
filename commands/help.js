@@ -1,6 +1,6 @@
 const commandInfo = require('./functions/help/commandinfo.js');
 const helpMessage = require('./functions/help/helpmessage.js');
-const commandList = require('./functions/help/commandslist');
+const commandList = require('./functions/help/commandlist');
 
 module.exports = {
 	name: 'help',
