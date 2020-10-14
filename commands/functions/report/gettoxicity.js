@@ -1,21 +1,19 @@
 const config = require('../../../config.json');
-const request = require('request-promise-native');
+
+const { Client } = require('@conversationai/perspectiveapi-js-client');
+const perspective = new Client(config.perspectiveKey);
+
+const options = {
+	languages: ['en'],
+	attributes: ['TOXICITY'],
+	doNotStore: true,
+};
 
 async function getToxicity(message) {
 	try {
-		const result = await request({
-			method: 'POST',
-			uri: `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${config.perspectiveKey}`,
-			body: {
-				comment: { text: message },
-				languages: ['en'],
-				requestedAttributes: { TOXICITY: {} },
-				doNotStore: true,
-			},
-			json: true,
-		});
+		const result = await perspective.getScores(message, options);
 
-		return result.attributeScores.TOXICITY.summaryScore.value;
+		return result.TOXICITY;
 	}
 	catch (error) {
 		console.error(error);
