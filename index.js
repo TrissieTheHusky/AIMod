@@ -14,7 +14,22 @@ const chalkStartup = chalk.bgMagenta.bold;
 const chalkCommandRun = chalk.bgGreen.bold;
 const chalkCommandFail = chalk.bgRed.bold;
 
+const postStats = require('./functions/poststats.js');
+const keepAlive = require('./functions/serverlistner');
+
 const config = require('./config.json');
+
+const DBL = require('dblapi.js');
+const dbl = new DBL(config.apiTokens.top, client);
+
+const Statcord = require('statcord.js');
+const statcord = new Statcord.Client({
+	client,
+	key: config.statcordKey,
+	postCpuStatistics: true,
+	postMemStatistics: true,
+	postNetworkStatistics: true,
+});
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Discord.Collection();
@@ -30,7 +45,22 @@ client.on('ready', () => {
 	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Currently protecting ' + `${client.users.cache.size}` + ' users, in ' + `${client.channels.cache.size}` + ' channels of ' + `${client.guilds.cache.size}` + ' guilds.'));
 	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Ready! Listening for commands...'));
 	console.log(chalkStartup('[STARTUP]') + chalkSuccess(' Log started! Details about any executed commands will be logged here from now on.'));
+
+	postStats(client);
+	statcord.autopost();
 });
+
+dbl.on('posted', () => {
+	console.log('[STAT POST GOOD] Statitistics posted to top.gg');
+});
+
+dbl.on('error', error => {
+	console.log(`[STAT POST FAIL] Statistic post to top.gg failed - ${error}`);
+});
+
+setInterval(function() {
+	postStats(client);
+}, 1800000);
 
 client.on('message', message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
@@ -65,7 +95,6 @@ client.on('message', message => {
 
 	if (command.guildOnly && message.channel.type !== 'text') {
 		console.log(chalkCommandFail('[COMMAND FAIL]') + chalkWarning(` GIULDONLY IN DM - USER - ${message.author.tag} COMMAND - ${command.name}`));
-		console.log(`[COMMAND FAIL] GIULDONLY IN DM - USER - ${message.author.tag} COMMAND - ${command.name}`);
 
 		return message.reply('I can\'t execute that command inside direct messages! Please try again in a server!');
 	}
@@ -85,6 +114,8 @@ client.on('message', message => {
 		command.execute(message, args);
 		// eslint-disable-next-line no-shadow
 		console.log(chalkCommandRun('[COMMAND EXECUTED]') + chalkSuccess(` COMMAND ${command.name} - USER ${message.author.tag} - ARGS ${args.map(args => args).join(', ')}`));
+
+		statcord.postCommand(command.name, message.author.id);
 	}
 	catch (error) {
 		console.log(chalkCommandFail('[COMMAND FAIL]') + chalkError(' UNKNOWN FAILURE IN EXECUTION - PLEASE SEE ERROR BELOW\n', error));
@@ -92,4 +123,14 @@ client.on('message', message => {
 	}
 });
 
+statcord.on('autopost-start', () => {
+	console.log('[STAT POST START] Started Statcord Autopost...');
+});
+
+statcord.on('post', status => {
+	if (!status) console.log('[STAT POST GOOD] Succuessfully posted stats to Statcord.');
+	else console.error(status);
+});
+
+keepAlive();
 client.login(config.token);
