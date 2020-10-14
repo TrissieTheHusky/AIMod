@@ -4,12 +4,16 @@
   "description": "AIMod uses machine learning to automatically process reported messages on your server.",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.20.0",
     "chalk": "^4.1.0",
+    "dblapi.js": "^2.4.1",
     "discord.js": "^12.3.1",
+    "express": "^4.17.1",
     "goby": "^1.1.2",
     "nodemon": "^2.0.4",
     "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "request-promise-native": "^1.0.9",
+    "statcord.js": "^3.1.1"
   },
   "devDependencies": {
     "eslint": "^7.11.0"
