@@ -51,16 +51,21 @@ client.on('ready', () => {
 });
 
 dbl.on('posted', () => {
-	console.log('[STAT POST GOOD] Statitistics posted to top.gg');
+	console.log(chalkCommandRun('[STAT POST GOOD]') + chalkSuccess(' Statistics posted to top.gg'));
 });
 
 dbl.on('error', error => {
-	console.log(`[STAT POST FAIL] Statistic post to top.gg failed - ${error}`);
+	console.error(chalkCommandFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to top.gg failed - ${error}`));
 });
 
 setInterval(function() {
 	postStats(client);
 }, 1800000);
+
+setInterval(function() {
+	client.user.setActivity(`aim!help | Protecting ${client.users.cache.size}` + ' users in ' + `${client.guilds.cache.size}` + ' guilds.', { type: 'WATCHING' })
+		.catch(console.error);
+}, 60000);
 
 client.on('message', message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
@@ -124,12 +129,12 @@ client.on('message', message => {
 });
 
 statcord.on('autopost-start', () => {
-	console.log('[STAT POST START] Started Statcord Autopost...');
+	console.log(chalkCommandRun('[STAT POST START]') + chalkSuccess(' Started Statcord autopost...'));
 });
 
 statcord.on('post', status => {
-	if (!status) console.log('[STAT POST GOOD] Succuessfully posted stats to Statcord.');
-	else console.error(status);
+	if (!status) 			console.log(chalkCommandRun('[STAT POST GOOD]') + chalkSuccess(' Stats posted to Statcord'));
+	else console.error(chalkCommandFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to Statcord failed - ${status}`));
 });
 
 keepAlive();

@@ -1,6 +1,12 @@
 const axios = require('axios');
 const config = require('../config.json');
 
+const chalk = require('chalk');
+const chalkWarning = chalk.bold.yellow;
+const chalkSuccess = chalk.green;
+const chalkStatPostGood = chalk.bgGreen.bold;
+const chalkStatPostFail = chalk.bgRed.bold;
+
 function postStats(client) {
 	discordbotlistStats(client);
 	discordlabsStats(client);
@@ -19,10 +25,10 @@ function discordbotlistStats(client) {
 			},
 		})
 		.then(res => {
-			console.log(`[STAT POST GOOD] Statistics posted to discordbotlist.com - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`);
+			console.log(chalkStatPostGood('[STAT POST GOOD]') + chalkSuccess(` Statistics posted to discordbotlist.com - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`));
 		})
 		.catch(error => {
-			console.error(`[STAT POST FAIL] Statistic post to discordbotlist.com failed - ${error}`);
+			console.error(chalkStatPostFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to discordbotlist.com failed - ${error}`));
 		});
 }
 
@@ -34,10 +40,10 @@ function discordlabsStats(client) {
 			server_count: client.guilds.cache.size,
 		})
 		.then(res => {
-			console.log(`[STAT POST GOOD] Statistics posted to bots.discordlabs.org - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`);
+			console.log(chalkStatPostGood('[STAT POST GOOD]') + chalkSuccess(` Statistics posted to bots.discordlabs.org - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`));
 		})
 		.catch(error => {
-			console.error(`[STAT POST FAIL] Statistic post to bots.discordlabs.org failed - ${error}`);
+			console.error(chalkStatPostFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to bots.discordlabs.org failed - ${error}`));
 		});
 }
 
@@ -53,10 +59,10 @@ function discordbotsggStats(client) {
 			},
 		})
 		.then(res => {
-			console.log(`[STAT POST GOOD] Statistics posted to discord.bots.gg - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`);
+			console.log(chalkStatPostGood('[STAT POST GOOD]') + chalkSuccess(` Statistics posted to discord.bots.gg - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`));
 		})
 		.catch(error => {
-			console.error(`[STAT POST FAIL] Statistic post to discord.bots.gg failed - ${error}`);
+			console.error(chalkStatPostFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to discord.bots.gg failed - ${error}`));
 		});
 }
 
@@ -72,10 +78,10 @@ function botListSpace(client) {
 			},
 		})
 		.then(res => {
-			console.log(`[STAT POST GOOD] Statistics posted to botlist.space - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`);
+			console.log(chalkStatPostGood('[STAT POST GOOD]') + chalkSuccess(` Statistics posted to botlist.space - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`));
 		})
 		.catch(error => {
-			console.error(`[STAT POST FAIL] Statistic post to botlist.space failed - ${error}`);
+			console.error(chalkStatPostFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to botlist.space failed - ${error}`));
 		});
 }
 
