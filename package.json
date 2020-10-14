@@ -12,8 +12,6 @@
     "express": "^4.17.1",
     "goby": "^1.1.2",
     "nodemon": "^2.0.4",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
     "statcord.js": "^3.1.1"
   },
   "devDependencies": {
