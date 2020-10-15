@@ -8,6 +8,7 @@ labels:
   invalid: close
   duplicate: close
   close: close
+  fixed: close
   ✅ Approved: merge
 
 comments:
@@ -20,6 +21,11 @@ comments:
     pattern: /wontfix/i
     labels:
       - wontfix
+
+  - action: label
+    pattern: /fixed/i
+    labels:
+      - fixed
 
   - action: delete_comment
     pattern: "+1"
