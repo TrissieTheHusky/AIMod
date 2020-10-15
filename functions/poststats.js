@@ -8,28 +8,9 @@ const chalkStatPostGood = chalk.bgGreen.bold;
 const chalkStatPostFail = chalk.bgRed.bold;
 
 function postStats(client) {
-	discordbotlistStats(client);
 	discordlabsStats(client);
 	discordbotsggStats(client);
 	botListSpace(client);
-}
-
-function discordbotlistStats(client) {
-	// discordbotlist.com
-	axios
-		.post('https://discordbotlist.com/api/v1/bots/676864099832954884/stats', {
-			guilds: client.guilds.cache.size,
-		}, {
-			headers: {
-				Authorization: config.apiTokens.discordBotList,
-			},
-		})
-		.then(res => {
-			console.log(chalkStatPostGood('[STAT POST GOOD]') + chalkSuccess(` Statistics posted to discordbotlist.com - STATUS CODE ${res.status} - STATUS TEXT ${res.statusText}`));
-		})
-		.catch(error => {
-			console.error(chalkStatPostFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to discordbotlist.com failed - ${error}`));
-		});
 }
 
 function discordlabsStats(client) {
