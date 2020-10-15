@@ -15,6 +15,11 @@ comments:
     pattern: /duplicate of/i
     labels: 
       - duplicate
+ 
+  - action: label
+    pattern: /wontfix/i
+    labels:
+      - wontfix
 
   - action: delete_comment
     pattern: "+1"
