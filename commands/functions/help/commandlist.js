@@ -12,9 +12,8 @@ function commandList(data, commands, message) {
 			message.reply('I\'ve sent you a DM with all my commands!');
 		})
 
-		.catch(error => {
-			console.error(`[COMMAND FAIL] Failed to send help DM to ${message.author.tag}. View error below:\n`, error);
-			message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+		.catch(() => {
+			message.reply(data, { split: true });
 		});
 }
 
