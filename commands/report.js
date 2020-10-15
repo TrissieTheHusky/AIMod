@@ -44,7 +44,7 @@ function reportUser(message) {
 			const newNickname = goby.init().generate(['adj', 'pre', 'suf']);
 			member.setNickname(newNickname);
 			message.author.send(`**HEADS UP:** The user you reported, \`${nickname}\` from \`${message.guild.name}\` was renamed \`${newNickname}\`. Thank you for reporting and keeping the server clean! (The nickname was found to be **toxic** with **${toxicity * 100}%** certianty.)`);
-			reportedUserEmbed(message, nickname, newNickname, reportedUser, toxicity);
+			reportedUserEmbed(message, newNickname, reportedUser, toxicity);
 		}
 		else {
 			message.author.send(`**HEADS UP:** The user you reported, \`${nickname}\` from \`${message.guild.name}\` had no action taken against them because our machine learning algorythms determined that their username was **not an issue** with **${100 - (toxicity * 100)}%** certianty. If you feel this is an error, please alert the server's mods. **NO ACTION HAS BEEN TAKEN.**`);
