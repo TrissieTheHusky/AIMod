@@ -18,7 +18,6 @@ const chalkCommandFail = chalk.bgRed.bold;
 
 const postStats = require('./functions/poststats.js');
 const keepAlive = require('./functions/serverlistner');
-const addServer = require('./web/addserver.js');
 
 const config = require('./config.json');
 
@@ -166,7 +165,6 @@ statcord.on('post', status => {
 	else console.error(chalkCommandFail('[STAT POST FAIL]') + chalkWarning(` Statistic post to Statcord failed - ${status}`));
 });
 
-addServer();
 // run the keepAlive code
 keepAlive();
 // log in!
