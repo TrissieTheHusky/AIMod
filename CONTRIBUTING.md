@@ -75,7 +75,6 @@ Here's how AIMod's development flow works:
 
 ### Additional Rules, Guidelines, and Notes for Code Contributors
 * **ALWAYS SIGN YOUR COMMITS!** You *must* sign your commits to this repository.
-* Please ensure that you are making commits to `develop`.
 * I would really appreciate it if you commented your code.
 * Please make sure you lint your code! (`npm run lint`, or `npm run lintfix` to auto fix any issues it finds)
 
